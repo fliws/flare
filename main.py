@@ -1,9 +1,9 @@
 import asyncio
 import concurrent
 
-from .config import DISCORD_TOKEN
-from .discord_bot import client as discord_client
-from .telegram_bot import telegram_client
+from bot.config import DISCORD_TOKEN
+from bot.discord_bot import client as discord_client
+from bot.telegram_bot import telegram_client
 
 
 async def main():
