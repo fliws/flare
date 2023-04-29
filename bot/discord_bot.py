@@ -1,7 +1,6 @@
 import discord
-from .config import DISCORD_TOKEN
-from .telegram_bot import connect_to_telegram
-from .utils import emoji_to_unicode, extract_text_between_stars, send_image_to_telegram
+from .telegram_bot import connect_to_telegram, send_image_to_telegram
+from .utils import emoji_to_unicode, extract_text_between_stars
 
 client = discord.Client()
 
