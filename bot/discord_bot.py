@@ -1,4 +1,5 @@
 import discord
+import re
 from .telegram_bot import connect_to_telegram, send_image_to_telegram
 from .utils import emoji_to_unicode, extract_text_between_stars
 
@@ -29,6 +30,10 @@ async def on_message(message):
         else:
             await message.reply("Вы меня упомянули, но я не смог разобрать вашу команду. Напишите Флэр помоги, чтобы получить справку по моим функциям")
 
+    pattern = r'\*\*.*\*\* - Image #\d+ <@\d+>'
+    if re.match(pattern, message.content):
+        await message.add_reaction('👉')
+
 
 @client.event
 async def on_raw_reaction_add(payload):
@@ -39,21 +44,20 @@ async def on_raw_reaction_add(payload):
 
     # Проверяем, не является ли пользователь ботом
     if user_id == client.user.id:
+        print ("own reaction - skip")
         return
 
     # Получаем объекты канала и сообщения
     channel = client.get_channel(channel_id)
     message = await channel.fetch_message(payload.message_id)
-    reaction = emoji_to_unicode(emoji.name)
-    print(f"reaction {reaction}")
-    if reaction == '1faa2':
-        print("ITS KNOT")
+    print(f"reaction {emoji.name}")
+    if emoji.name == '👉':
         print(message.content)
         if len(message.attachments) > 0:
-            print(f"SHOME:{message.attachments}")
             for attachment in message.attachments:
                 if attachment.content_type.startswith('image'):
                     image_url = attachment.url
-                    await message.reply('Перенаправляю изображение в чат')
-                    await send_image_to_telegram(image_url, message.channel.name.split("-")[0] + ": " + extract_text_between_stars(message.content), reply_to_msg_id=18515)
+                    print(f"send {image_url}")
+                    await message.add_reaction('👌')
+                    await send_image_to_telegram(image_url, message.channel.name.split("-")[0] + ": " + f"`{extract_text_between_stars(message.content)}`", reply_to_msg_id=18515)
                     break

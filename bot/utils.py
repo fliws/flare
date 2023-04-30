@@ -2,6 +2,7 @@ import re
 
 # Функция для преобразования эмодзи в unicode
 def emoji_to_unicode(emoji_str):
+    print(emoji_str)
     return '-'.join(['%04x' % ord(c) for c in emoji_str])
 
 # Функция для извлечения промта
