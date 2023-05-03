@@ -1,15 +1,15 @@
 import discord
 import re
-from .telegram_bot import connect_to_telegram, send_image_to_telegram
+from .telegram_bot import send_image_to_telegram
 from .utils import emoji_to_unicode, extract_text_between_stars
 
 client = discord.Client()
 
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-    # Авторизация с использованием токена бота
-    await connect_to_telegram()
+
 
 @client.event
 async def on_message(message):
